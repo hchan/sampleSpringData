@@ -1,6 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/data/jpa
@@ -9,11 +8,23 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://sql3.freemysqlhosting.net/sql340330" />
+		<property name="url"
+			value="jdbc:mysql://sql3.freemysqlhosting.net/sql340330" />
 		<property name="username" value="sql340330" />
 		<property name="password" value="dR5!xA3!" />
+
+
+<!-- 		<property name="hibernateProperties"> -->
+<!-- 			<props> -->
+<!-- 				<prop key="hibernate.show_sql">true</prop> -->
+<!-- 				<prop key="hibernate.format_sql">true</prop> -->
+<!-- 				<prop key="hibernate.hbm2ddl.auto"> -->
+<!-- 					create-drop -->
+<!-- 				</prop> -->
+<!-- 			</props> -->
+<!-- 		</property> -->
 	</bean>
-	
-<!-- 	<jpa:repositories base-package="hello.repository"/> -->
+
+	<!-- <jpa:repositories base-package="hello.repository"/> -->
 
 </beans>
