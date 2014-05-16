@@ -1,4 +1,6 @@
-package hello;
+package hello.repository;
+
+import hello.model.Customer;
 
 import java.util.List;
 

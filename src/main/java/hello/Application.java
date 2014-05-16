@@ -1,19 +1,42 @@
 package hello;
 
+import hello.model.Customer;
+import hello.repository.CustomerRepository;
+
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 
 @Configuration
+//@ConfigurationProperties(prefix="jdbc")
+//@PropertySources (value = {@PropertySource("classpath:application.properties")})
 @EnableAutoConfiguration
+@ImportResource("classpath:applicationContext.xml")
 public class Application {
 
     public static void main(String[] args) {
-
-        ConfigurableApplicationContext context = SpringApplication.run(Application.class);
+    	
+    	ConfigurableApplicationContext context = SpringApplication.run(Application.class);
+    	//ConfigurableApplicationContext  context = new ClassPathXmlApplicationContext(new String[] {"applicationContext.xml"}); 
+    	
+        //context.setParent(contextParent);
+    	
+       
+    	
+        DataSource dataSource = (DataSource) context.getBean("dataSource");
+        
+      
         CustomerRepository repository = context.getBean(CustomerRepository.class);
 
         // save a couple of customers
