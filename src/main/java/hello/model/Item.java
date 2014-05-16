@@ -12,21 +12,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Transient;
 
 @Entity
 public class Item {
 	 protected Item() {}
 	 private String name;
 //	 @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-//	 private Customer customer;
+
+	 @Transient
+	 private Customer customer;
 	private Long customerId;
-	
-//	public Customer getCustomer() {
-//		return customer;
-//	}
-//	public void setCustomer(Customer customer) {
-//		this.customer = customer;
-//	}
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 	
 	public Long getCustomerId() {
 		return customerId;

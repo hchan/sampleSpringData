@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class Customer {
@@ -19,10 +20,19 @@ public class Customer {
     private long id;
     private String firstName;
     private String lastName;
-//    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-//    private List<Item> items = new ArrayList<Item>();
+    
+    @Transient
+    private List<Item> items = new ArrayList<Item>();
 
-    protected Customer() {}
+    public List<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+
+	protected Customer() {}
 
     public long getId() {
 		return id;
