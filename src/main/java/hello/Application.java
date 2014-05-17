@@ -25,26 +25,28 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 import org.springframework.jdbc.datasource.*;
 
-@Configuration
-@EnableAutoConfiguration
-@ImportResource("classpath:applicationContext.xml")
+
+
 // https://spring.io/guides/gs/accessing-data-jpa/
 public class Application {
-
+	public static boolean USE_INMEMORYDB = false;
 	public static void main(String[] args) {
-
-		ConfigurableApplicationContext context = SpringApplication
-				.run(Application.class);
-		changeDataSource(context);
-	
+		ConfigurableApplicationContext context = null;
+		if (USE_INMEMORYDB) {
+			context = SpringApplication.run(MemoryDB.class); 
+			// most likley use Hyersonic : org.hibernate.dialect.H2Dialect
+		} else {
+			context = SpringApplication.run(MySqlDB.class);
+			// org.hibernate.dialect.MySQL5Dialect
+		}
+				
 		CustomerRepository repository = context
 				.getBean(CustomerRepository.class);
 		
 		ItemRepository itemRepository = context
 				.getBean(ItemRepository.class);
 
-		// org.springframework.data.jpa.repository.support.SimpleJpaRepository
-		// simpleJpaRepository = (SimpleJpaRepository) repository;
+		
 
 		// createCustomers(repository);
 
@@ -61,15 +63,7 @@ public class Application {
 		context.close();
 	}
 
-	private static void changeDataSource(ConfigurableApplicationContext context) {
 	
-		DriverManagerDataSource dataSource = (DriverManagerDataSource) context.getBean("dataSource");
-		DriverManagerDataSource inMemoryDataSource = (DriverManagerDataSource) context.getBean("inMemoryDataSource");
-		dataSource.setUrl("jdbc:hsqldb:mem:testdb");
-		dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-		dataSource.setUsername("sa");
-		dataSource.setPassword("");
-	}
 
 	private static void createCustomer0(CustomerRepository repository, ItemRepository itemRepository) {
 		Customer customer0 = new Customer("Henry", "Chan");
