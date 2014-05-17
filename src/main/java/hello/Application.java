@@ -23,19 +23,23 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
+import org.springframework.jdbc.datasource.*;
 
 @Configuration
 @EnableAutoConfiguration
 @ImportResource("classpath:applicationContext.xml")
+// https://spring.io/guides/gs/accessing-data-jpa/
 public class Application {
 
 	public static void main(String[] args) {
 
 		ConfigurableApplicationContext context = SpringApplication
 				.run(Application.class);
-
+		changeDataSource(context);
+	
 		CustomerRepository repository = context
 				.getBean(CustomerRepository.class);
+		
 		ItemRepository itemRepository = context
 				.getBean(ItemRepository.class);
 
@@ -55,6 +59,16 @@ public class Application {
 		repository.save(customer); // note that the orphans aren't removed
 		
 		context.close();
+	}
+
+	private static void changeDataSource(ConfigurableApplicationContext context) {
+	
+		DriverManagerDataSource dataSource = (DriverManagerDataSource) context.getBean("dataSource");
+		DriverManagerDataSource inMemoryDataSource = (DriverManagerDataSource) context.getBean("inMemoryDataSource");
+		dataSource.setUrl("jdbc:hsqldb:mem:testdb");
+		dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+		dataSource.setUsername("sa");
+		dataSource.setPassword("");
 	}
 
 	private static void createCustomer0(CustomerRepository repository, ItemRepository itemRepository) {

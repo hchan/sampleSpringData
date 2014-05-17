@@ -24,6 +24,14 @@
 <!-- 			</props> -->
 <!-- 		</property> -->
 	</bean>
+	
+	<bean id="inMemoryDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.h2.Driver" />
+		<property name="url"
+			value="jdbc:h2:mem:testdb;shutdown=true" />
+	</bean>
+
 
 	<!-- <jpa:repositories base-package="hello.repository"/> -->
 
